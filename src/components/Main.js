@@ -4,6 +4,8 @@ import confetti from 'canvas-confetti';
 
 const Main = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [animate, setAnimate] = useState(false);
+
 
   const cakeOcassions = [
     {
@@ -24,7 +26,7 @@ const Main = () => {
     {
       name: "Baby Shower Cake",
       quote: "A cake for baby, soft and sweet, a little joy we soon shall meet.",
-      img: "/images/iy1glw7a-removebg-preview.png"
+      img: "images/bby-removebg-preview.png"
     },
     {
       name: "Graduation Cake",
@@ -82,25 +84,43 @@ const Main = () => {
     });
     };
 
-    const updateCurrentIndex = () => {
-    fireConfetti(); // trigger confetti
-    setCurrentIndex((prev) => (prev + 1) % cakeOcassions.length);
+    const updateCurrentIndex = (e) => {
+      fireConfetti();
+      setAnimate(false); // reset
+      setTimeout(() => {
+        setCurrentIndex((prev) => (prev + 1) % cakeOcassions.length);
+        setAnimate(true); // trigger again after index update
+      }, 50); // small delay to reset animation
+
+      e.target.disabled = true;
+
+       // Re-enable after 3 seconds
+      setTimeout(() => {
+        e.target.disabled = false;
+      }, 3000);
     };
+
 
 
   return (
     <div className="main-section">
-      <div className="occasion-card">
-        <div className="text-content">
-          <h2>{name}</h2>
-          <p>{quote}</p>
-          <button onClick={updateCurrentIndex}>More →</button>
-        </div>
-        <div className="image-content">
-          <img src={img} alt={name} />
-        </div>
+    <div
+      className="blurred-bg"
+      style={{ backgroundImage: `url(${img})` }}
+    ></div>
+
+    <div className="occasion-card">
+      <div className="text-content">
+        <h2>{name}</h2>
+        <p>{quote}</p>
+        <button onClick={(e) => updateCurrentIndex(e)}>More Cakes →</button>
+      </div>
+      <div className={`image-content ${animate ? 'anim' : ''}`}>
+        <img src={img} alt={name} />
       </div>
     </div>
+  </div>
+
   );
 };
 

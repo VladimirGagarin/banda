@@ -5,7 +5,7 @@ export default function Intro() {
   return (
     <header className="intro">
       <img
-        src="../images/logo4.png" // your centered logo
+        src="https://aicdn.picsart.com/5c4f4549-6094-441f-a441-55f44487ce6c.png" // your centered logo
         alt="Logo"
         className="logo"
       />
